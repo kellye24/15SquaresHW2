@@ -1,0 +1,66 @@
+    /*
+    * A simple single player game called 15 Squares
+    *
+    * Description:
+    *       15 squares, side-by-side
+    *       4 rows, on the last row: 3, and one empty
+    *
+    * Goal:
+    *       The goal is to arrange squares so they
+    *       are put in order, with the missing square
+    *       in the bottom right corner.
+    *
+    * Rules:
+    *       Only legal moves are sliding of a numbered
+    *       square to the adjacent square.
+    *
+    * Programming Objectives:
+    *       - Initialize puzzle by randomly placing
+    *         squares 1-15 on the grid
+    *       - Displays the puzzle and allows the
+    *         player to play
+    *       - When the numbers are correctly placed,
+    *         give an indication that they are correctly
+    *         placed (e.g., changing the color of the background)
+    *       - "Reset" button that randomly scrambles the puzzle
+    *       - "Play" should be intuitive
+    *       - Code is commented and conforms to the 301 standard
+    *
+    * CONSIDER: Intuitively, might be best to allow the player to
+    *           drag squares instead of clicking.
+    *
+    * Enhancements:
+    *       [ 8% ]
+    *       Instead of randomly initialing the puzzle at the start,
+    *       randomly initialize it with the restriction that the puzzle
+    *       is winnable. (There are certain initial configurations for
+    *       which the puzzle is not winnable. See http://mathworld.wolfram.com/15Puzzle.html
+    *       for more information.) -  [ 8% ]
+    *
+    *       [ 10% ]
+    *       Write your program so that the size of the puzzle can be changed.
+    *       For example, a user could specify a 7x7 puzzle (with 48 numbered
+    *       squares) or a 9x9 puzzle (with 80 numbered squares). It is up to
+    *       you to decide how the user should specify the puzzle size (and to
+    *       document it so that it can be tested during grading) - [ 10% ]
+    *
+    *       [ 5% ]
+    *       Instead of squares on a square board, implement the puzzle with
+    *       hexagons on a hexagonal grid - [ 5% ]
+    *
+    *       [ 5% ]
+    *       If the user does not name a move within in 10 seconds, have the program
+    *       make a random legal move on behalf of the user. (To do this, consider using
+    *       the java.util.Timer class.) - [ 5% ]
+    *
+     */
+
+    // Addjacent moves-- so if I move a piece on to a border piece, that border piece swaps with it or gets pushed?
+    // Only along the horizontal
+
+    // onDragEvent()  and  View.onDragListener()
+
+    // Enhancements 1 and 4 GOAL...!
+
+
+}

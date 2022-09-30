@@ -1,0 +1,183 @@
+package edu.up.a15squareshw2;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.Random;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private int boardWidth = 4;
+    private int[] squares = new int[15+1];
+    //public Button[] btnList;
+    private boolean gameEnd = false;
+    private int blankSquare = 15; // 16, same-same, array index stuff
+    //private int[] squareNums = new int[boardWidth * boardWidth - 1 - 1];
+
+
+    Button btn1 = findViewById(R.id.btn1);
+    Button btn2 = findViewById(R.id.btn2);
+    Button btn3 = findViewById(R.id.btn3);
+    Button btn4 = findViewById(R.id.btn4);
+    Button btn5 = findViewById(R.id.btn5);
+    Button btn6 = findViewById(R.id.btn6);
+    Button btn7 = findViewById(R.id.btn7);
+    Button btn8 = findViewById(R.id.btn8);
+    Button btn9 = findViewById(R.id.btn9);
+    Button btn10 = findViewById(R.id.btn10);
+    Button btn11 = findViewById(R.id.btn11);
+    Button btn12 = findViewById(R.id.btn12);
+    Button btn13 = findViewById(R.id.btn13);
+    Button btn14 = findViewById(R.id.btn14);
+    Button btn15 = findViewById(R.id.btn15);
+    Button btn16 = findViewById(R.id.btn16);
+
+    Button[] btnList = new Button[]{btn1, btn2, btn3, btn4,
+            btn5, btn6, btn7, btn8,
+            btn9, btn10, btn11, btn12,
+            btn13, btn14, btn15, btn16};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView gameText = findViewById(R.id.gameTitle);
+
+
+        //Controller controller = new Controller(gameText);
+        Controller controller = new Controller(btn1);
+        btn1.setOnClickListener(controller);
+        btn2.setOnClickListener(controller);
+        btn3.setOnClickListener(controller);
+        btn4.setOnClickListener(controller);
+        btn5.setOnClickListener(controller);
+        btn6.setOnClickListener(controller);
+        btn7.setOnClickListener(controller);
+        btn8.setOnClickListener(controller);
+        btn9.setOnClickListener(controller);
+        btn10.setOnClickListener(controller);
+        btn11.setOnClickListener(controller);
+        btn12.setOnClickListener(controller);
+        btn13.setOnClickListener(controller);
+        btn14.setOnClickListener(controller);
+        btn15.setOnClickListener(controller);
+        btn16.setOnClickListener(controller);
+
+        // Turn these into loops for buttons
+        //int num = 0;
+        //Log.i("mainActivity", "Adding text to first button.");
+        //btn1.setText("" + num);
+        //int output = Integer.parseInt(btn1.getText().toString());
+        //Log.i("mainActivity", "Text from button retrieved... " + 21 / 6 * 6 + " " + 21 % 6);
+
+        //btn1.setBackgroundColor(Color.parseColor("#FF00FF"));
+
+        // Next, decide movements
+        // We can only move species above, below, left,
+        // and right of the empty space
+        // We cant move off the grid, so keep track of grid movements!
+        // Change colors of selected blank space
+        // Change colors of pieces in order (with extra time if able)
+
+        // MOVEMENT RUNDOWN?
+        // if click box, and box is within grid, to left/right/top/bottom
+        // then make clicked box new blank position
+        // if box is not one of these, do nothing
+
+        // check left: blank pos - 1
+        // check right: blank pos + 1
+        // check top:
+        // check bottom:
+
+        // count a move when a new blank position is assigned
+
+        // Check whether arrays will return back as intended
+
+        //int[] nope = fetchValues();
+        // Cool it worked!
+        //Log.i("mainActivity", "Array coming back is..." + nope[0] + " " + nope[1]);
+
+        shuffle(btnList);
+
+
+        if (isSolvable()) {
+            Log.i("solve", "We can solve this?!!");
+        } else {
+            Log.i("solve", "We can't solve this...");
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if (gameEnd) {
+            shuffle(btnList);
+        }
+
+        Log.i("button", "We made it to button click!");
+
+        if (view.getId() == R.id.btn1) {
+            Log.i("button", "Button 1 was clicked!");
+        }
+    }
+
+    protected void shuffle(Button[] btnList) {
+        // shuffle values
+        // assign to buttons
+        //int gridSize = boardWidth * boardWidth - 1;
+        int b = 1;
+        for (int i = 0; i < squares.length; i++) {
+            squares[i] = i+1;
+        }
+
+        Random rand = new Random();
+
+        for (int i = 0; i < squares.length; i++) {
+            int randIndex = rand.nextInt(squares.length);
+            int temp = squares[randIndex];
+            squares[randIndex] = squares[i];
+            squares[i] = temp;
+        }
+
+        for (int i = 0; i < squares.length; i++) {
+            btnList[i].setText("" + squares[i]);
+            //Log.i("mainActivity", "Checked button ... " + ((i + 1) % squares.length) + " " + squares.length);
+        }
+
+        setBlankPos(15);
+    }
+
+    private void setBlankPos(int i) {
+        btnList[i].setText("");
+        btnList[i].setBackgroundColor(Color.parseColor("#FF00FF"));
+    }
+
+    protected boolean isSolvable() {
+        Log.i("mainActivity", "Start of isSolvable method in MainActivity.");
+        int counted = 0;
+        for (int i = 0; i < boardWidth*boardWidth; i++) {
+            for (int j = 0; j < i; j++) {
+                if (squares[j] > squares[i]) {
+                    counted++;
+                }
+            }
+        }
+
+        if (counted % 2 == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+
+
+
+-----------------------
