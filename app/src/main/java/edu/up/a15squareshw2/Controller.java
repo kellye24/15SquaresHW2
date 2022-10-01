@@ -1,121 +1,143 @@
+/**
+ * Emma L. Kelly
+ * Date: 19 September 2022
+ * Homework 2: 15 Squares Game
+ *
+ *
+ */
 package edu.up.a15squareshw2;
 
-import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class Controller extends MainActivity implements View.OnClickListener {
-    private int moves = 0;
-    public int pos = 16;
-    private int[] vals = new int[15];
-    public int up, down, left, right;
+
+    // Variables for tracking positions and arrays for the grid
+    private int pos = 0;
     private int blankPos = 16;
+    private int clickedPos = 0;
+    private int[] grid = new int[15];
+    private Button[] btns = new Button[15];
+    private boolean canBeSolved;
+    private int counter = 0;
 
-    //Button[] btns = new Button[15];
-    private int currId, nextId = R.id.btn16;
-    MainActivity main = new MainActivity();
-
+    // Construct controller characteristics passing button through
     public Controller(Button btn) {
-
+        btns[counter] = btn;
+        counter++;
+        setButtons(btns);
     }
 
     @Override
     public void onClick(View view) {
 
-        int id = 0;
+        // Creating main object for reference
+        MainActivity main = new MainActivity();
 
+        // Find clicked button by int position
+        clickedPos = findBtn(view);
+        // If this button is in a valid position validPos will be true
+        boolean validPos = findPossible(clickedPos, this.blankPos);
+        // Report findings up to now
+        Log.i("solve", "Position is: " + this.pos + " and is " + validPos + " Clicked: " + clickedPos);
 
-        // Update to latest position
-        pos = main.getPos();
-        Log.i("solve", "Position is: " + pos);
+        // If a valid position exists at this position
+        // Then proceed with swapping the blank and current position values
+        // to update to current position, updating squares.
+        if (validPos == true && clickedPos != blankPos) {
+            // Return button list to main
+            createNewBlankNext(clickedPos, blankPos);
 
-        // Determine directions from this position that can be taken
-        up = findPossible(pos, 1);
-        down = findPossible(pos, 2);
-        left = findPossible(pos, 3);
-        right = findPossible(pos, 4);
-
-        // Find the button position and send it back in main
-
-        //btn12.setBackgroundColor(Color.parseColor("#BBBBBB"));
-        //int prevVal = Integer.parseInt(btns[blankPos].getText().toString());
-        //int newVal = Integer.parseInt(btns[pos].getText().toString());
-        //btns[pos].setText("");
-        //btns[blankPos].setText("" + pos);
-        //btns[pos].setBackgroundColor(Color.parseColor("#000000"));
-        //btns[blankPos].setBackgroundColor(Color.parseColor("#BBBBBB"));
-        //blankPos = pos;
-        //int output = Integer.parseInt(btn1.getText().toString());
-        //btn1.setBackgroundColor(Color.parseColor("#FF00FF"));
-        //Log.i("solve", "Position found -- " + pos + " ID: " + id);
-        //int num = 0;
-        //Log.i("mainActivity", "Adding text to first button.");
-        //btn1.setText("" + num);
-        //int output = Integer.parseInt(btn1.getText().toString());
-        //btn1.setBackgroundColor(Color.parseColor("#FF00FF"));
-
-        if (id != 0) {
-            Log.i("solve", "ID: " + id + " Pos: " + pos);
+            // Properties and operations that can be done on a button for updating
+            //btnList[clickedPos].setBackgroundColor(Color.parseColor("#BBBBBB"));
+            //btn1.setText("" + num);
+            //int output = Integer.parseInt(btn1.getText().toString());
+            //btn1.setBackgroundColor(Color.parseColor("#FF00FF"));
         }
     }
 
-    private int findPossible(int pos, int i) {
-        int p = pos;
-        boolean[] paths = new boolean[4];
-
-        switch(i) {
-            case 1:
-                // Up
-                if (p - 4 > 0) {
-                    up = p - 4;
-                    paths[0] = true;
-                    //Log.i("solve", "FIRST Left: " + left + " Right: " + right + " Up: " + up + " Down: " + down);
-                }
-                return up;
-            case 2:
-                // Down
-                if (p + 4 < 16) {
-                    down = p + 4;
-                    paths[1] = true;
-                    //Log.i("solve", "FIRST Left: " + left + " Right: " + right + " Up: " + up + " Down: " + down);
-                }
-                return down;
-            case 3:
-                // Left
-                if ((p - 1) % 4 != 0) {
-                    left = p - 1;
-                    paths[2] = true;
-                    //Log.i("solve", "FIRST Left: " + left + " Right: " + right + " Up: " + up + " Down: " + down);
-                }
-                return left;
-            case 4:
-                // Right
-                if (p % 4 != 0) {
-                    right = p + 1;
-                    paths[3] = true;
-                    //Log.i("solve", "FIRST Left: " + left + " Right: " + right + " Up: " + up + " Down: " + down);
-                }
-                return right;
+    /**
+     * Find whether the clicked position is a valid direction based on the
+     * current blank position in up, down, left, and right directions.
+     *
+     * @param c
+     * @param blank
+     * @return true if clicked button is a valid path and false otherwise
+     */
+    private boolean findPossible(int c, int blank) {
+        boolean valid = false;
+        // Up
+        if (c == blank - 4 && blank - 4 > 0) {
+            valid = true;
+        }
+        // Down
+        if (c == blank + 4 && blank + 4 < 16) {
+            valid = true;
+        }
+        // Left
+        if (c == (blank - 1) && (blank - 1) % 4 != 0) {
+            valid = true;
+        }
+        // Right
+        if (c == (blank + 1) && blank % 4 != 0) {
+            valid = true;
         }
 
+        Log.i("solve", "Blank: " + blank + " Valid: " + valid + " Pos: " + c);
+        return valid;
+    }
+
+    /**
+     * Determine which button was pressed based on id sent by view
+     * and identify the button by that id.
+     *
+     * @param view
+     * @return i, button id
+     */
+    public int findBtn(View view) {
+        // Create list of buttons IDs
+        int[] btnIds = {R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
+                        R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8,
+                        R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12,
+                        R.id.btn13, R.id.btn14, R.id.btn15, R.id.btn16, };
+
+        // Loop through IDs to find button clicked
+        for (int i = 1; i < 16; i++) {
+            if (view.getId() == btnIds[i-1]) {
+                // Return clicked button ID
+                return i;
+            }
+        }
+
+        // If we somehow didn't click any buttons, return 0
         return 0;
     }
 
-    public int setPos(int p) {
-        p = pos;
-        return p;
+    /**
+     * Updates global grid
+     *
+     * @param gridVals
+     */
+    public void setGrid(int[] gridVals) {
+        this.grid = grid;
     }
 
-    public int findBtn(View view, int id) {
-        Log.i("solve", "SECOND Up: " + up + " Down: " + down + " Left: " + left + " Right: " + right);
-
-
-
-        return id;
+    /**
+     * Fetches global determination of whether grid can be solved
+     *
+     * @param solvable
+     */
+    public void canBeSolved(boolean solvable) {
+        this.canBeSolved = solvable;
     }
 
-    private void setID(int idSet) {
-        nextId = idSet;
+    /**
+     * Send sets button list to global button list
+     *
+     * @param btn
+     */
+    public void setButtons(Button[] btn) {
+        btnList = btn;
     }
 }

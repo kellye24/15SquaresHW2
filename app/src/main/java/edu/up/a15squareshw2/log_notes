@@ -55,7 +55,7 @@
     *
      */
 
-    // Addjacent moves-- so if I move a piece on to a border piece, that border piece swaps with it or gets pushed?
+    // Adjacent moves-- so if I move a piece on to a border piece, that border piece swaps with it or gets pushed?
     // Only along the horizontal
 
     // onDragEvent()  and  View.onDragListener()
