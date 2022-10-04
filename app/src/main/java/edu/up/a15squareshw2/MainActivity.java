@@ -63,11 +63,12 @@ public class MainActivity extends AppCompatActivity {
                 btn13, btn14, btn15, btn16};
 
         // Creature empty controller object
-        Controller controller = null;
+        Controller controller = new Controller(btnList);
         // Set each button to have onClickListener
         // in the controller.
         for (int c = 0; c < btnList.length; c++) {
-            controller = new Controller(btnList[c]);
+            //add button to contoller
+            //controller = new Controller(btnList[c]);
             btnList[c].setOnClickListener(controller);
         }
 
@@ -192,32 +193,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Set new blank position and update visuals
-     *
-     * @param clickedPos
-     * @param blankPos
-     */
-    public void createNewBlankNext(int clickedPos, int blankPos) {
-        // Issue faced with updating buttons visually
-        // The idea was that controller would send back the clickedPosition
-        // and current blank position to the Main, and Main would
-        // then update the buttons visually by background color and text.
-        // Unfortunately, after many hours of attempting to find ways
-        // around this, I couldn't find a solution, so the game
-        // currently does not update positions as intended...
 
-        // The intended code to update that is currently facing issues:
-
-        // Setting up new blank button
-        // Sets to gray background
-        // btnList[clickedPos].setBackgroundColor(Color.parseColor("#BBBBBB"));
-        // Sets text to nothing
-        // btnList[clickedPos].setText("");
-
-        // Setting up non-blank button
-        // btnList[blankPos].setBackgroundColor(Color.parseColor("#000000"));
-        // Sets text to clicked position's previous value
-        // btnList[blankPos].setText("" + clickedPos);
-    }
 }
